@@ -14,6 +14,7 @@ import "./AppBar.css";
 import "./Box.css";
 import "./container.css";
 import NewsBox from "./NewsBox";
+import DrawerR from "./Drawer";
 let Grid = [];
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -59,26 +60,31 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function NavBar() {
   const [text, setText] = useState("any");
+  const [sort, setSort] = useState("relevancy");
   const [preview, setPreview] = useState("");
   const [url, setUrl] = useState(
-    `https://newsapi.org/v2/everything?q=${text}&from=2023-11-25&sortBy=publishedAt&apiKey=1fd25a51b7dc4d74abc89689ecc8ea2d`
+    `https://newsapi.org/v2/everything?q=${text}&from=2023-11-25&sortBy=${sort}&apiKey=1fd25a51b7dc4d74abc89689ecc8ea2d`
   );
 
   const [grid, setGrid] = useState(Grid);
 
   useEffect(() => {
     fetchNews();
-  }, [grid]);
+  }, [grid, text, url, sort]);
 
   const fetchNews = async () => {
     setUrl(
       (oldUrl) =>
-        `https://newsapi.org/v2/everything?q=${text}&from=2023-11-25&language=en&sortBy=publishedAt&apiKey=1fd25a51b7dc4d74abc89689ecc8ea2sd`
+        `https://newsapi.org/v2/everything?q=${text}&from=2023-11-25&language=en&sortBy=${sort}&apiKey=1fd25a51b7dc4d74abc89689ecc8ea2d`
     );
 
     var req = new Request(url);
     let awaited = await fetch(req);
     let newslet = await awaited.json(); //object is given
+
+    if (newslet.status === "error") {
+      return <div>No result found!</div>;
+    }
     const size = newslet.totalResults;
     const articles = newslet.articles;
     // object received done
@@ -99,6 +105,11 @@ export default function NavBar() {
     setPreview((oldPreview) => evt.target.value);
   }
 
+  function changeSort(sort) {
+    console.log(url);
+    setSort((oldSort) => sort);
+  }
+
   function changeText(evt) {
     if (evt.key === "Enter") {
       setText((oldValue) => evt.target.value);
@@ -116,7 +127,7 @@ export default function NavBar() {
               aria-label="open drawer"
               sx={{ mr: 2 }}
             >
-              <MenuIcon />
+              {/* <MenuIcon /> */}
             </IconButton>
             <img src={logo} style={{ height: 55 }} />
             <Search>
@@ -132,6 +143,7 @@ export default function NavBar() {
                 className="input"
               />
             </Search>
+            <DrawerR changeSort={changeSort} />
           </Toolbar>
         </AppBar>
       </Box>

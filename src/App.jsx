@@ -3,6 +3,7 @@ import NavBar from "./NavBar";
 import NewsBox from "./NewsBox";
 import NewsGrid from "./NewsGrid";
 import Trial from "./Trial";
+import DrawerR from "./Drawer";
 function App() {
   return (
     <div>

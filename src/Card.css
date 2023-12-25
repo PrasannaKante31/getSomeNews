@@ -1,0 +1,9 @@
+.Card{
+    display:inline-block;
+    height:300px;
+    margin:20px;
+    margin-right:35px;
+    margin-left:35px;
+    width: 300px;
+    border: 2px solid black
+}

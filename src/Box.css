@@ -1,0 +1,6 @@
+.Box{
+    display: flex;
+    justify-content: space-evenly;
+    width: 90vw;
+    margin: 20px;
+}

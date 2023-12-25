@@ -1,4 +1,5 @@
 import NewsBox from "./NewsBox";
+import "./AppBar.css";
 import { useState, useEffect } from "react";
 const Grid = [];
 export default function NewsGrid({ text }) {

@@ -10,7 +10,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import logo from "./logo.png";
 import { useState, useEffect } from "react";
-import NewsGrid from "./NewsGrid";
+import "./AppBar.css";
+import "./Box.css";
+import "./container.css";
 import NewsBox from "./NewsBox";
 let Grid = [];
 const Search = styled("div")(({ theme }) => ({
@@ -59,12 +61,11 @@ export default function NavBar() {
   const [text, setText] = useState("any");
   const [preview, setPreview] = useState("");
   const [url, setUrl] = useState(
-    `https://newsapi.org/v2/everything?q=${text}&from=2023-11-25&sortBy=publishedAt&apiKey=1881fe38d63e4bf0be6062fe535d398b`
+    `https://newsapi.org/v2/everything?q=${text}&from=2023-11-25&sortBy=publishedAt&apiKey=1fd25a51b7dc4d74abc89689ecc8ea2d`
   );
 
   const [grid, setGrid] = useState(Grid);
 
-  console.log("preview is ", preview);
   useEffect(() => {
     fetchNews();
   }, [grid]);
@@ -72,9 +73,9 @@ export default function NavBar() {
   const fetchNews = async () => {
     setUrl(
       (oldUrl) =>
-        `https://newsapi.org/v2/everything?q=${text}&from=2023-11-25&language=en&sortBy=publishedAt&apiKey=1881fe38d63e4bf0be6062fe535d398b`
+        `https://newsapi.org/v2/everything?q=${text}&from=2023-11-25&language=en&sortBy=publishedAt&apiKey=1fd25a51b7dc4d74abc89689ecc8ea2sd`
     );
-    console.log(url);
+
     var req = new Request(url);
     let awaited = await fetch(req);
     let newslet = await awaited.json(); //object is given
@@ -88,7 +89,7 @@ export default function NavBar() {
         NewsRow.push(<NewsBox news={articles[i]} />);
         i++;
       }
-      newGrid.push(NewsRow);
+      newGrid.push(<div className="NewsRow">{NewsRow}</div>);
     }
 
     setGrid((grid) => newGrid);
@@ -104,9 +105,9 @@ export default function NavBar() {
     }
   }
   return (
-    <div>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+    <div className="container">
+      <Box className="Box">
+        <AppBar className="AppBar" position="static">
           <Toolbar>
             <IconButton
               size="large"
@@ -128,6 +129,7 @@ export default function NavBar() {
                 onChange={changePreview}
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
+                className="input"
               />
             </Search>
           </Toolbar>

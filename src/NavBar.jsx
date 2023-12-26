@@ -16,6 +16,7 @@ import "./container.css";
 import NewsBox from "./NewsBox";
 import DrawerR from "./Drawer";
 import DatePickerValue from "./DatePickerValue";
+
 let Grid = [];
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -58,8 +59,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-function giveDate() {
+function giveDate(flag) {
   let now = new Date();
+  if (!flag) now.setDate(now.getDate() - 1);
   return "".concat(
     now.getFullYear(),
     "-",
@@ -72,8 +74,8 @@ export default function NavBar() {
   const [text, setText] = useState("any");
   const [sort, setSort] = useState("relevancy");
   const [preview, setPreview] = useState("");
-  const [from, setFrom] = useState("2023-01-20");
-  const [to, setTo] = useState(() => giveDate());
+  const [from, setFrom] = useState(() => giveDate(false));
+  const [to, setTo] = useState(() => giveDate(true));
   const [url, setUrl] = useState(
     `https://newsapi.org/v2/everything?q=${text}&from=${from}&sortBy=${sort}&apiKey=1fd25a51b7dc4d74abc89689ecc8ea2`
   );
@@ -98,9 +100,10 @@ export default function NavBar() {
     }
     const size = newslet.totalResults;
     const articles = newslet.articles;
-    console.log(url);
+
     // object received done
     let newGrid = [];
+    //setting up the grid
     for (let i = 0; i < 30; i++) {
       let NewsRow = [];
       for (let cnt = 0; cnt < 3; cnt++) {
@@ -136,7 +139,6 @@ export default function NavBar() {
   }
   return (
     <div className="container">
-      <h1>{url}</h1>
       <Box className="Box">
         <AppBar className="AppBar" position="static">
           <Toolbar>
@@ -147,10 +149,10 @@ export default function NavBar() {
               aria-label="open drawer"
               sx={{ mr: 2 }}
             >
-              {/* <MenuIcon /> */}
+              <MenuIcon />
             </IconButton>
             <img src={logo} style={{ height: 55 }} />
-            <Search>
+            <Search style={{ width: 300, marginLeft: 30 }}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -163,11 +165,13 @@ export default function NavBar() {
                 className="input"
               />
             </Search>
+
             <DrawerR
               changeSort={changeSort}
               changeFrom={changeFrom}
               changeTo={changeTo}
             />
+
             {/* <DatePickerValue label="from" changeDate={changeFrom} />
             <DatePickerValue label="to" changeDate={changeTo} /> */}
           </Toolbar>

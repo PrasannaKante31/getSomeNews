@@ -1,45 +1,12 @@
-// import * as React from "react";
-// import dayjs from "dayjs";
-// import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
-// export default function DatePickerValue({ changeDate, label }) {
-//   const [value, setValue] = React.useState(dayjs("2022-04-17"));
-//   console.log(dayjs("2022-04-17").$y);
-
-//   function changeValue(evt) {
-//     console.log("val is ", evt.target.value);
-//     setValue((oldVal) => evt.target.value);
-//   }
-
-//   return (
-//     <>
-//       <LocalizationProvider dateAdapter={AdapterDayjs}>
-//         <DemoContainer components={["DatePicker", "DatePicker"]}>
-//           <DatePicker
-//             label={label}
-//             value={value}
-//             onChange={(evt) => {
-//               console.log(evt.target.value);
-//               changeValue();
-//             }}
-//           />
-//         </DemoContainer>
-//       </LocalizationProvider>
-//     </>
-//   );
-// }
-
 import * as React from "react";
 import dayjs from "dayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-function giveDate() {
+function giveDate(flag) {
   let now = new Date();
+  if (!flag) now.setDate(now.getDate() - 1);
   return "".concat(
     now.getFullYear(),
     "-",
@@ -49,7 +16,9 @@ function giveDate() {
   );
 }
 export default function DatePickerValue({ changeDate, label }) {
-  const [value, setValue] = React.useState(() => dayjs(giveDate()));
+  const [value, setValue] = React.useState(() =>
+    dayjs(giveDate(label === "from" ? false : true))
+  );
 
   function changeValue(newDate) {
     let nd = "".concat(

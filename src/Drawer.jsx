@@ -19,6 +19,7 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { Button } from "@mui/material";
+import DatePickerValue from "./DatePickerValue";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -56,7 +57,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-start",
 }));
 
-export default function DrawerR({ changeSort }) {
+export default function DrawerR({ changeSort, changeFrom, changeTo }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -74,7 +75,7 @@ export default function DrawerR({ changeSort }) {
       <Button
         variant="outlined"
         onClick={handleDrawerOpen}
-        style={{ color: "black" }}
+        style={{ color: "black", height: 50 }}
       >
         Sort by
       </Button>
@@ -111,6 +112,12 @@ export default function DrawerR({ changeSort }) {
               </ListItemButton>
             </ListItem>
           ))}
+          <ListItem>
+            <DatePickerValue label="from" changeDate={changeFrom} />
+          </ListItem>
+          <ListItem>
+            <DatePickerValue label="to" changeDate={changeTo} />
+          </ListItem>
         </List>
       </Drawer>
     </Box>

@@ -73,20 +73,21 @@ export default function NavBar() {
   const [preview, setPreview] = useState("");
   const [from, setFrom] = useState(() => giveDate(false));
   const [to, setTo] = useState(() => giveDate(true));
+  const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState(
-    `https://newsapi.org/v2/everything?q=${text}&from=${from}&sortBy=${sort}&apiKey=1fd25a51b7dc4d74abc89689ecc8ea2d`
+    `https://newsapi.org/v2/everything?q=${text}&from=${from}&sortBy=${sort}&apiKey=095738bddd1d4796936a70feaa046779`
   );
 
   const [grid, setGrid] = useState(Grid);
 
   useEffect(() => {
     fetchNews();
-  }, [grid, text, url, sort, from, to]);
+  }, [grid]);
 
   const fetchNews = async () => {
     setUrl(
       (oldUrl) =>
-        `https://newsapi.org/v2/everything?q=${text}&from=${from}&to=${to}&language=en&sortBy=${sort}&apiKey=1fd25a51b7dc4d74abc89689ecc8ea2d`
+        `https://newsapi.org/v2/everything?q=${text}&from=${from}&to=${to}&language=en&sortBy=${sort}&apiKey=095738bddd1d4796936a70feaa046779`
     );
 
     var req = new Request(url);
@@ -109,6 +110,7 @@ export default function NavBar() {
     }
 
     setGrid((grid) => newGrid);
+    setLoading(false);
   };
 
   function changePreview(evt) {
@@ -138,6 +140,7 @@ export default function NavBar() {
   }
   return (
     <div className="container">
+      {loading && <h1>...Let me getSomeNews for you!</h1>}
       <Box className="Box">
         <AppBar className="AppBar" position="static">
           <Toolbar>
@@ -153,7 +156,7 @@ export default function NavBar() {
               </SearchIconWrapper>
               <StyledInputBase
                 value={preview}
-                onKeyDown={changeText}
+                onKeyDownCapture={changeText}
                 onChange={changePreview}
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}

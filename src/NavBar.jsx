@@ -4,18 +4,15 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import logo from "./logo.png";
 import { useState, useEffect } from "react";
-import "./AppBar.css";
-import "./Box.css";
-import "./container.css";
 import NewsBox from "./NewsBox";
 import DrawerR from "./Drawer";
-import DatePickerValue from "./DatePickerValue";
+import ShowMenu from "./ShowMenu";
+import "./NavBar.css";
 
 let Grid = [];
 const Search = styled("div")(({ theme }) => ({
@@ -77,7 +74,7 @@ export default function NavBar() {
   const [from, setFrom] = useState(() => giveDate(false));
   const [to, setTo] = useState(() => giveDate(true));
   const [url, setUrl] = useState(
-    `https://newsapi.org/v2/everything?q=${text}&from=${from}&sortBy=${sort}&apiKey=1fd25a51b7dc4d74abc89689ecc8ea2`
+    `https://newsapi.org/v2/everything?q=${text}&from=${from}&sortBy=${sort}&apiKey=1fd25a51b7dc4d74abc89689ecc8ea2d`
   );
 
   const [grid, setGrid] = useState(Grid);
@@ -89,15 +86,13 @@ export default function NavBar() {
   const fetchNews = async () => {
     setUrl(
       (oldUrl) =>
-        `https://newsapi.org/v2/everything?q=${text}&from=${from}&to=${to}&language=en&sortBy=${sort}&apiKey=1fd25a51b7dc4d74abc89689ecc8ea2`
+        `https://newsapi.org/v2/everything?q=${text}&from=${from}&to=${to}&language=en&sortBy=${sort}&apiKey=1fd25a51b7dc4d74abc89689ecc8ea2d`
     );
 
     var req = new Request(url);
     let awaited = await fetch(req);
     let newslet = await awaited.json(); //object is given
-    if (newslet.status === "error") {
-      return <div>No result found!</div>;
-    }
+
     const size = newslet.totalResults;
     const articles = newslet.articles;
 
@@ -130,6 +125,10 @@ export default function NavBar() {
     }
   }
 
+  function changeText2(newText) {
+    setText((oldValue) => newText);
+  }
+
   function changeTo(newDate) {
     setTo((oldDate) => newDate);
   }
@@ -142,17 +141,13 @@ export default function NavBar() {
       <Box className="Box">
         <AppBar className="AppBar" position="static">
           <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <img src={logo} style={{ height: 55 }} />
-            <Search style={{ width: 300, marginLeft: 30 }}>
+            <ShowMenu changeText2={changeText2} />
+            <b style={{ color: "black" }}>Let's GetSomeNews! </b>
+            <img
+              src={logo}
+              style={{ height: 39, width: 30, marginLeft: 120 }}
+            />
+            <Search style={{ width: 300, marginLeft: 0, borderRadius: 0 }}>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -171,9 +166,6 @@ export default function NavBar() {
               changeFrom={changeFrom}
               changeTo={changeTo}
             />
-
-            {/* <DatePickerValue label="from" changeDate={changeFrom} />
-            <DatePickerValue label="to" changeDate={changeTo} /> */}
           </Toolbar>
         </AppBar>
       </Box>

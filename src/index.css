@@ -23,8 +23,9 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  background-image: url("./plain.png");
+  display: inline-flex;
+  justify-content: space-evenly;
+  background-image: url("./black.jpg");
   min-width: 320px;
   min-height: 100vh;
   background-image: "./newsBI";

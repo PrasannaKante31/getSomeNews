@@ -3,26 +3,52 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import "./Card.css";
+import "./NewsBox.css";
+import MoreInfo from "./MoreInfo";
+
 export default function NewsBox({ news }) {
-  //news refer to one of the element of articles
   const img = news.urlToImage;
   const url = news.url;
+
   return (
-    <Card className="Card">
-      <CardMedia component="img" alt="green iguana" height="140" image={img} />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {news.title}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">
-          <a href={url}>Read more!</a>
-        </Button>
-      </CardActions>
-    </Card>
+    <>
+      <Card
+        className="Card"
+        elevation={3}
+        style={{
+          width: 368,
+          margin: 10,
+          height: 500,
+          display: "inline-flex",
+          flexDirection: "column",
+        }}
+      >
+        <div style={{ flex: 1 }}>
+          <CardMedia
+            component="img"
+            image={img}
+            style={{ height: "300px", objectFit: "cover" }}
+          />
+        </div>
+
+        <CardContent
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          <Typography variant="body1" align="center">
+            <b>{news.title}</b>
+          </Typography>
+        </CardContent>
+
+        <CardActions style={{ alignSelf: "flex-end" }}>
+          <MoreInfo news={news} />
+        </CardActions>
+      </Card>
+    </>
   );
 }

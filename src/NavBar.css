@@ -1,0 +1,28 @@
+.container{
+    margin:0;
+    padding:0;
+}
+
+.Box{
+    display: inline-flex;
+    justify-content: space-evenly;
+    width: 89.25vw;
+    height: 65px;
+    margin-bottom:20px;
+    margin-top: 20px;
+   
+}
+
+.AppBar{
+    border: 2px solis white;
+    border-radius: 0%;
+}
+
+.input{
+    margin-left:200;
+    width:500px;
+}
+
+.NewsRow{
+    display:inline-block;
+}
